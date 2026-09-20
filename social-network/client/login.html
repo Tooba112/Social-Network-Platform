@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Log in | SocialNet</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+  <main class="auth-page"><section class="card auth-card"><h1>Welcome back</h1><form id="login-form"><div class="form-group"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div><div class="form-group"><label for="password">Password</label><input id="password" name="password" type="password" required autocomplete="current-password"></div><button class="btn btn-primary" type="submit">Log in</button></form><p id="auth-error" class="error-msg" role="alert"></p><p>New here? <a href="register.html">Create an account</a></p></section></main>
+  <script src="js/auth.js"></script><script>redirectIfLoggedIn(); document.getElementById('login-form').addEventListener('submit', async (event) => { event.preventDefault(); const error = document.getElementById('auth-error'); const email = document.getElementById('email'); const password = document.getElementById('password'); error.textContent = ''; try { const data = await apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ email: email.value.trim(), password: password.value }) }); saveAuth(data); window.location.href = 'feed.html'; } catch (e) { error.textContent = e.message; } });</script>
+</body></html>

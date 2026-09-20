@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Create post | SocialNet</title>
+        <link rel="stylesheet" href="css/style.css">
+        </head>
+        <body>
+        <header id="navbar" class="navbar">
+        </header>
+        <main class="page-shell">
+        <section class="main-column">
+        <div class="card">
+        <h1>Create a post</h1>
+        <form id="create-post-form">
+        <div class="form-group">
+        <label for="post-content">What would you like to share?</label>
+        <textarea id="post-content" required maxlength="5000">
+         </textarea>
+        </div>
+        <div class="form-group">
+        <label for="post-image-input">Image or video</label>
+            <input id="post-image-input" type="file" accept="image/*,video/mp4,video/webm,video/ogg">
+            <div id="image-preview">
+            </div></div>
+                <div class="form-group">
+                    
+            <label for="post-visibility">Visibility</label>
+                    <select id="post-visibility">
+                        <option value="public">Public</option>
+                        <option value="friends">Friends</option>
+                        <option value="private">Private</option>
+                        </select></div><button id="submit-post-btn" class="btn btn-primary" type="submit">Post</button>
+                        <a class="btn btn-secondary" href="feed.html">Cancel</a>
+                        </form></div></section></main><nav id="bottom-nav" class="bottom-nav">
+
+                        </nav><div id="toast-container">
+
+                        </div><script src="js/auth.js">
+
+                        </script><script>if
+                             (requireAuth()) { renderNavbar(); renderBottomNav();
+                                 let
+                                  selectedFile = null; 
+                                  const imageInput = document.getElementById('post-image-input'); imageInput.addEventListener('change', () => { selectedFile = imageInput.files[0] || null; });
+                                   document.getElementById('create-post-form').addEventListener('submit', async (event) => { event.preventDefault(); 
+                                    const button = document.getElementById('submit-post-btn');
+                                     button.disabled = true; 
+                                     try
+                                      { const formData = new FormData();
+                                         formData.set('content', document.getElementById('post-content').value.trim());
+                                          formData.set('visibility', document.getElementById('post-visibility').value);
+                                          if (selectedFile) formData.append('media', selectedFile); 
+                                          await apiFetch('/api/posts', { method: 'POST', body: formData, headers: {} });
+                                             showToast('Post created!', 'success'); setTimeout(() => { window.location.href = 'feed.html'; }, 5000);
+                                         }
+                                          catch
+                                           (e) { showToast(e.message, 'error');
+
+                                            }
+                                             finally { button.disabled = false; } });
+                                             }
+                        </script>
+                        </body>
+                        </html>
